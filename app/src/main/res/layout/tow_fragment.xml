@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.client.getassistance.TowFragment">
+
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:fillViewport="true"-->
+<!--        android:scrollbars="none">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <include-->
+<!--                android:visibility="gone"-->
+<!--                android:id="@+id/select_car"-->
+<!--                layout="@layout/select_car_layout" />-->
+
+<!--            <include-->
+<!--                android:id="@+id/search"-->
+<!--                layout="@layout/layout_search" />-->
+
+<!--            <include-->
+<!--                android:id="@+id/service22s"-->
+<!--                layout="@layout/layout_service" />-->
+
+<!--        </LinearLayout>-->
+
+<!--    </androidx.core.widget.NestedScrollView>-->
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/progress_layout"
+        layout="@layout/progress_main" />
+
+</FrameLayout>

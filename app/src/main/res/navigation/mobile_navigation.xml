@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_get_assistance">
+
+    <fragment
+        android:id="@+id/nav_get_assistance"
+        android:name="com.automobile.assistance.ui.client.getassistance.GetAssistanceFragment"
+        android:label="Get Assistance"
+        tools:layout="@layout/fragment_get_assistance" >
+        <action
+            android:id="@+id/action_nav_get_assistance_to_inner_assistance_lockout"
+            app:destination="@id/inner_assistance_lockout" />
+        <action
+            android:id="@+id/action_nav_get_assistance_to_inner_assistance_tow"
+            app:destination="@id/inner_assistance_tow" />
+        <action
+            android:id="@+id/action_nav_get_assistance_to_inner_assistance_tire"
+            app:destination="@id/inner_assistance_tire" />
+        <action
+            android:id="@+id/action_nav_get_assistance_to_inner_assistance_fuel"
+            app:destination="@id/inner_assistance_fuel" />
+        <action
+            android:id="@+id/action_nav_get_assistance_to_nav_my_mechanic"
+            app:destination="@id/inner_assistance_mechanic" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inner_assistance_lockout"
+        android:name="com.automobile.assistance.ui.client.getassistance.LockoutFragment"
+        android:label="Lockout Assistance"
+        tools:layout="@layout/lockout_fragment" >
+        <action
+            android:id="@+id/action_inner_assistance_lockout_to_nav_my_car"
+            app:destination="@id/nav_my_car" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inner_assistance_mechanic"
+        android:name="com.automobile.assistance.ui.client.mymechanic.MyMechanicsFragment"
+        android:label="My Mechanics"
+        tools:layout="@layout/fragment_my_mechanic" >
+        <action
+            android:id="@+id/action_inner_assistance_lockout_to_nav_my_car"
+            app:destination="@id/nav_my_car" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inner_assistance_tow"
+        android:name="com.automobile.assistance.ui.client.getassistance.TowFragment"
+        android:label="Tow Service"
+        tools:layout="@layout/tow_fragment" >
+        <action
+            android:id="@+id/action_inner_assistance_tow_to_nav_my_car"
+            app:destination="@id/nav_my_car" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inner_assistance_tire"
+        android:name="com.automobile.assistance.ui.client.getassistance.TireFragment"
+        android:label="Tire Service"
+        tools:layout="@layout/tire_fragment" >
+        <action
+            android:id="@+id/action_inner_assistance_tire_to_nav_my_car"
+            app:destination="@id/nav_my_car" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inner_assistance_fuel"
+        android:name="com.automobile.assistance.ui.client.getassistance.FuelFragment"
+        android:label="Fuel Service"
+        tools:layout="@layout/fuel_fragment" >
+        <action
+            android:id="@+id/action_inner_assistance_fuel_to_nav_my_car"
+            app:destination="@id/nav_my_car" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_my_car"
+        android:name="com.automobile.assistance.ui.client.mycar.AddCarFragment"
+        android:label="Add Your Car"
+        tools:layout="@layout/add_car_fragment" />
+
+
+<!--    -->
+
+    <fragment
+        android:id="@+id/nav_transaction"
+        android:name="com.automobile.assistance.ui.client.transaction.TransactionFragment"
+        android:label="Transactions"
+        tools:layout="@layout/fragment_transactions" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.automobile.assistance.ui.client.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/nav_faq"
+        android:name="com.automobile.assistance.ui.client.FaqsFragment"
+        android:label="Faq's"
+        tools:layout="@layout/fragment_faq" />
+
+</navigation>

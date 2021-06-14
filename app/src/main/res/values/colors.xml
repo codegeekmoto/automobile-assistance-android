@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1563c2</color>
+    <color name="colorPrimaryDark">#1563c2</color>
+    <color name="colorAccent">#487ecf</color>
+    <color name="auth_blur">#B0000000</color>
+    <color name="light">#F0EFEF</color>
+    <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="blurBlue">#DD1A2333</color>
+    <color name="success">#0a4a0b</color>
+
+    <color name="darkGray">#FD3C3F41</color>
+    <color name="gray">#727170</color>
+    <color name="blur_black">#D8000000</color>
+    <color name="red">#A30707</color>
+    <color name="lightGray">#ADADAC</color>
+    <color name="dark">#4B4A49</color>
+    <color name="light2">#E2DFDF</color>
+</resources>

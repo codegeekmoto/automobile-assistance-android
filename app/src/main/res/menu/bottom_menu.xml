@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottom_lockout"
+        android:title="Assistance"
+        android:icon="@drawable/nav_assistance"/>
+
+    <item
+        android:id="@+id/bottom_jump"
+        android:title="My Mechanics"
+        android:icon="@drawable/nav_mechanic"/>
+
+    <item
+        android:id="@+id/bottom_tow"
+        android:title="Profile"
+        android:icon="@drawable/nav_profile"/>
+
+</menu>

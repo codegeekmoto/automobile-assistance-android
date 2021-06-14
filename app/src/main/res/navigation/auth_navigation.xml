@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_navigation"
+    app:startDestination="@id/auth_get_started">
+
+    <fragment
+        android:id="@+id/auth_get_started"
+        android:name="com.automobile.assistance.ui.auth.GetStartedFragment"
+        android:label="Get Started"
+        tools:layout="@layout/fragment_auth_get_started" />
+
+    <fragment
+        android:id="@+id/auth_login"
+        android:name="com.automobile.assistance.ui.auth.login.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_auth_login" />
+
+    <fragment
+        android:id="@+id/auth_register"
+        android:name="com.automobile.assistance.ui.auth.register.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_auth_register" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/auth_forgot_password"-->
+<!--        android:name="com.automobile.ui.auth.ForgotPasswordFragment"-->
+<!--        android:label="Register"-->
+<!--        tools:layout="@layout/fragment_auth_forgot_password" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/auth_otp"-->
+<!--        android:name="com.automobile.ui.auth.OTPFragment"-->
+<!--        android:label="OTP"-->
+<!--        tools:layout="@layout/fragment_auth_otp" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/auth_change_password"-->
+<!--        android:name="com.automobile.ui.auth.ChangePasswordFragment"-->
+<!--        android:label="OTP"-->
+<!--        tools:layout="@layout/fragment_auth_change_password" >-->
+<!--        <action-->
+<!--            android:id="@+id/action_auth_change_password_to_auth_login"-->
+<!--            app:destination="@id/auth_login"-->
+<!--            app:popUpTo="@id/auth_login"-->
+<!--            app:popUpToInclusive="true" />-->
+<!--    </fragment>-->
+
+</navigation>
