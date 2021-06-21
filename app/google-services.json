@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "584806673982",
+    "project_id": "automobile-assistance-fff37",
+    "storage_bucket": "automobile-assistance-fff37.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584806673982:android:6c4c5a07b0072bd9d32b6f",
+        "android_client_info": {
+          "package_name": "com.automobile.assistance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584806673982-52qp7j6ufkm7ln38g5ofeek10003vh83.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXysZx-RrEgKEOmmluiLzMTy_fsX-b19w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584806673982-52qp7j6ufkm7ln38g5ofeek10003vh83.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

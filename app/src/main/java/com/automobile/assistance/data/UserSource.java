@@ -1,15 +1,24 @@
 package com.automobile.assistance.data;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import com.automobile.assistance.app.Constant;
 import com.automobile.assistance.data.local.Prefs;
 import com.automobile.assistance.data.local.db.Database;
 import com.automobile.assistance.data.remote.RemoteDataApi;
+import com.automobile.assistance.data.remote.pojo.FcmToken;
 import com.automobile.assistance.data.remote.pojo.Response;
 import com.automobile.assistance.data.remote.pojo.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.functions.Function;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -41,7 +50,7 @@ public class UserSource extends DataSource {
         });
     }
 
-    public Observable<Boolean> login(User user) {
+    public Observable<User> login(User user) {
         RequestBody body = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("email", user.getEmail())
@@ -49,15 +58,31 @@ public class UserSource extends DataSource {
                 .addFormDataPart("role", user.getRole())
                 .build();
 
-        return remoteApi.auth().login(body).map(new Function<Response, Boolean>() {
+        return remoteApi.auth().login(body).map(new Function<Response, User>() {
             @Override
-            public Boolean apply(Response response) throws Throwable {
+            public User apply(Response response) throws Throwable {
                 if (response.getStatus()) {
                     prefsApi.setObject(Constant.Prefs.USER, response.getUser());
-                    return true;
+                    return response.getUser();
+                } else {
+                    return new User();
                 }
+            }
+        });
+    }
 
-                return false;
+    public Observable<Boolean> initFCM(String token, String id) {
+        User user = getUser();
+        RequestBody body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("user_id", String.valueOf(user.getId()))
+                .addFormDataPart("token", token)
+                .build();
+
+        return remoteApi.user().saveFcmToken(body).map(new Function<Response, Boolean>() {
+            @Override
+            public Boolean apply(Response response) throws Throwable {
+                return true;
             }
         });
     }
@@ -115,4 +140,6 @@ public class UserSource extends DataSource {
     public boolean isLoggedIn() {
        return getUser() != null;
     }
+
+
 }

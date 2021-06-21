@@ -36,7 +36,7 @@ public class GetStartedFragment extends Fragment {
 
         binding.btnGetStarted.setOnClickListener(v -> {
             Navigation.findNavController(getActivity(), R.id.auth_host_fragment)
-                    .navigate(R.id.auth_login);
+                    .navigate(R.id.auth_select_login);
         });
 
         return binding.getRoot();

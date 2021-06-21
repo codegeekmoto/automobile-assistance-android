@@ -31,4 +31,7 @@ public interface UserApi {
 
     @POST(Constant.API.USER_UPDATE_PHONE)
     Observable<Response> updatePhone(@Body RequestBody body);
+
+    @POST(Constant.API.USER_SAVE_FCM_TOKEN)
+    Observable<Response> saveFcmToken(@Body RequestBody body);
 }

@@ -27,6 +27,18 @@ public class Service {
     @Expose
     private String address;
 
+    @SerializedName("mobile")
+    @Expose
+    private String mobile;
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     public Integer getCompanyServiceId() {
         return companyServiceId;
     }

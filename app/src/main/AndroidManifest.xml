@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.automobile.assistance" >
+    package="com.automobile.assistance">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:name=".app.App"
@@ -14,30 +16,50 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true" >
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.mechanic.MechanicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.NoActionBar"/>
 
         <activity
             android:name=".ui.client.ClientActivity"
             android:label="@string/title_activity_client"
-            android:theme="@style/App.NoActionBar">
-        </activity>
-
-        <activity android:name=".ui.auth.AuthActivity"
+            android:theme="@style/App.NoActionBar" />
+        <activity
+            android:name=".ui.auth.AuthActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.NoActionBar"/>
-
+            android:theme="@style/App.NoActionBar" />
         <activity
             android:name=".ui.SplashActivity"
             android:label="@string/app_name"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/App.NoActionBar" >
+            android:theme="@style/App.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".app.service.NotificationService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/app_icon" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
     </application>
 
 </manifest>

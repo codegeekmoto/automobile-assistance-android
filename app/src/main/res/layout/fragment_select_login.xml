@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/gotham_bold"
-                        android:text="Choose your login"
+                        android:text="Login as"
                         android:textColor="@color/light"
                         android:textSize="16sp" />
 
@@ -67,7 +67,7 @@
                         android:background="@color/colorPrimaryDark" />
 
                     <Button
-                        android:id="@+id/btn_seller"
+                        android:id="@+id/btn_mechanic"
                         style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                     android:textSize="20sp" />
 
                 <Button
-                    android:id="@+id/btn_register"
+                    android:id="@+id/btn_create_account"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"

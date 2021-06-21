@@ -23,6 +23,12 @@
         android:label="Register"
         tools:layout="@layout/fragment_auth_register" />
 
+    <fragment
+        android:id="@+id/auth_select_login"
+        android:name="com.automobile.assistance.ui.auth.SelectLoginFragment"
+        android:label="Select Your Login"
+        tools:layout="@layout/fragment_select_login" />
+
 <!--    <fragment-->
 <!--        android:id="@+id/auth_forgot_password"-->
 <!--        android:name="com.automobile.ui.auth.ForgotPasswordFragment"-->

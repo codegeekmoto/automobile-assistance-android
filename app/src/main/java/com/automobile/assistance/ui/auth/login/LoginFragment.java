@@ -3,6 +3,7 @@ package com.automobile.assistance.ui.auth.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,13 @@ import com.automobile.assistance.app.Constant;
 import com.automobile.assistance.data.remote.pojo.User;
 import com.automobile.assistance.databinding.FragmentAuthLoginBinding;
 import com.automobile.assistance.ui.client.ClientActivity;
+import com.automobile.assistance.ui.mechanic.MechanicActivity;
 import com.automobile.assistance.ui.vmfactory.LoginVMFactory;
 import com.automobile.assistance.util.Helper;
 import com.automobile.assistance.util.ResultObserver;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import javax.inject.Inject;
 
@@ -34,6 +39,8 @@ public class LoginFragment extends Fragment {
 
     private FragmentAuthLoginBinding binding;
 
+    private String loginType;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,28 +48,44 @@ public class LoginFragment extends Fragment {
         loginVM = new ViewModelProvider(this, vmFactory).get(LoginVM.class);
 
         binding = FragmentAuthLoginBinding.inflate(inflater, container, false);
-        binding.toolbar.title.setText("Login");
+        loginType = getArguments().getString("login_type");
+        String temp = loginType.equals("customer") ? "Customer" : "Mechanic";
+        binding.toolbar.title.setText(temp.concat(" Login"));
         binding.toolbar.btnBack.setOnClickListener(v -> getActivity().onBackPressed());
 
         setLoginForm();
         setVmObserver();
 
-         binding.email.setText("ken@mail.com");
-         binding.password.setText("123123");
+        if (loginType.equals("customer")) {
+            binding.email.setText("jay@mail.com");
+            binding.password.setText("123123");
+        } else {
+            binding.email.setText("james@mail.com");
+            binding.password.setText("123123");
+
+        }
 
         return binding.getRoot();
     }
 
     private void setVmObserver() {
-        loginVM.getLoginResult().observe(getViewLifecycleOwner(), new ResultObserver<Boolean>() {
+        loginVM.getLoginResult().observe(getViewLifecycleOwner(), new ResultObserver<User>() {
             @Override
-            public void onSuccess(Boolean aBoolean) {
-                if (aBoolean) {
-                    startActivity(new Intent(getActivity(), ClientActivity.class));
-                    getActivity().finish();
-                } else {
-                    Helper.dialogAlert(getContext(), "Login Failed", "Incorrect email or password. Try again.");
+            public void onSuccess(User user) {
+                if (user.getEmail() != null) {
+                    if (user.getRole().equals(loginType)) {
+                        if (loginType.equals("customer")) {
+                            startActivity(new Intent(getActivity(), ClientActivity.class));
+                        } else {
+                            startActivity(new Intent(getActivity(), MechanicActivity.class));
+                        }
+
+                        getActivity().finish();
+                        return;
+                    }
                 }
+
+                Helper.dialogAlert(getContext(), "Login Failed", "Incorrect email or password. Try again.");
             }
 
             @Override
@@ -74,7 +97,7 @@ public class LoginFragment extends Fragment {
                 } else if (e.getMessage().contains("401 Unauthorized")) {
                     errMsg = "Incorrect email or password. Try again.";
                 } else {
-                    errMsg = e.getMessage(); //Constant.Message.SOMETHING_WENT_WRONG;
+                    errMsg = Constant.Message.SOMETHING_WENT_WRONG + "\n Error: " + e.getMessage();
                 }
 
                 Helper.dialogAlert(getContext(), "Login Failed", errMsg);
@@ -89,14 +112,6 @@ public class LoginFragment extends Fragment {
 
     private void setLoginForm() {
         Helper.addTextWatcher(binding.email, binding.emailLayout);
-
-        binding.btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(getActivity(), R.id.auth_host_fragment)
-                        .navigate(R.id.auth_register);
-            }
-        });
 
         binding.forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,9 +131,9 @@ public class LoginFragment extends Fragment {
                 } else {
                     enabledLoginForm(false);
                     User user = new User();
+                    user.setRole(loginType);
                     user.setEmail(binding.email.getText().toString());
                     user.setPassword(binding.password.getText().toString());
-                    user.setRole("customer");
                     loginVM.login(user);
                 }
             }

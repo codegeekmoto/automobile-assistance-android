@@ -5,6 +5,7 @@ public class Constant {
     public static String APP_NAME = "AUTOMOBILE_BREAKDOWN_ASSISTANCE";
     //public final static String HOST = "https://automobile-assistance.herokuapp.com/api/";
     public final static String HOST = "https://breakdowna-ssistance.herokuapp.com/api/";
+    public final static String MAP_BOX_ACCESS_TOKEN = "pk.eyJ1IjoianVuZnJlZWNzcyIsImEiOiJja3B0bzhla3kwNHl0MnhwOTN6ZGpxZHZ5In0.bk2iOlhxIwYNEKhcS6IasA";
 
     public static class Prefs {
 
@@ -22,6 +23,7 @@ public class Constant {
 //        public final static String USER_CHANGE_PASSWORD = "auth/change-password";
         public final static String USER_UPDATE_EMAIL = "user/update";
         public final static String USER_UPDATE_PHONE = "user/update";
+        public final static String USER_SAVE_FCM_TOKEN = "fcm/register";
 //        public final static String USER_UPDATE_PASSWORD = "user/change-password";
 
 
@@ -41,6 +43,7 @@ public class Constant {
         // Services
         public final static String SERVICE = "service";
         public final static String SERVICE_BY_ID = "company/services";
+        public final static String GET_ASSISTANCE = "service/assistance";
     }
 
     public static class Message {

@@ -23,6 +23,30 @@ public class Response {
     @Expose
     private List<Service> services;
 
+    @SerializedName("alert")
+    @Expose
+    private Alert alert;
+
+    @SerializedName("fcm_token")
+    @Expose
+    private FcmToken fcm_token;
+
+    public FcmToken getFcm_token() {
+        return fcm_token;
+    }
+
+    public void setFcm_token(FcmToken fcm_token) {
+        this.fcm_token = fcm_token;
+    }
+
+    public Alert getAlert() {
+        return alert;
+    }
+
+    public void setAlert(Alert alert) {
+        this.alert = alert;
+    }
+
     public List<Service> getServices() {
         return services;
     }

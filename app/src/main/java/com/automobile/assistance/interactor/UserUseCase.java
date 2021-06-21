@@ -46,12 +46,34 @@ public class UserUseCase extends UseCaseWrapper {
         return changePassword;
     }
 
+    public SaveFcmToken saveFcmToken(String token, String id) {
+        SaveFcmToken saveFcmToken = new SaveFcmToken(token, id);
+        threads.add(saveFcmToken);
+        return saveFcmToken;
+    }
+
     public User getUser() {
         return repository.user().getUser();
     }
 
     public void logout() {
         repository.user().logout();
+    }
+
+    public class SaveFcmToken extends Thread<Boolean> {
+
+        String id;
+        String token;
+
+        public SaveFcmToken(String token, String id) {
+            this.id = id;
+            this.token = token;
+        }
+
+        @Override
+        protected Observable<Boolean> buildUseCaseObservable() {
+            return repository.user().initFCM(token, id);
+        }
     }
 
     public class ChangePassword extends Thread<Boolean> {
@@ -96,7 +118,7 @@ public class UserUseCase extends UseCaseWrapper {
         }
     }
 
-    public class Login extends Thread<Boolean> {
+    public class Login extends Thread<User> {
 
         private User user;
 
@@ -105,7 +127,7 @@ public class UserUseCase extends UseCaseWrapper {
         }
 
         @Override
-        protected Observable<Boolean> buildUseCaseObservable() {
+        protected Observable<User> buildUseCaseObservable() {
             return repository.user().login(user);
         }
     }
