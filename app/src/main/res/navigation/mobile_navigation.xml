@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/nav_get_assistance"
-        android:name="com.automobile.assistance.ui.client.getassistance.GetAssistanceFragment"
+        android:name="com.automobile.assistance.ui.client.getassistance.BaseFragment"
         android:label="Get Assistance"
-        tools:layout="@layout/fragment_get_assistance" >
+        tools:layout="@layout/fragment_base" >
         <action
             android:id="@+id/action_nav_get_assistance_to_inner_assistance_lockout"
             app:destination="@id/inner_assistance_lockout" />

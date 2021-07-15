@@ -50,7 +50,7 @@ public class ClientActivity extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_get_assistance, R.id.nav_transaction, R.id.nav_faq, R.id.nav_profile)
+                R.id.nav_get_assistance, R.id.nav_transaction, /** R.id.nav_faq, */ R.id.nav_profile)
                 .setDrawerLayout(drawer)
                 .build();
 

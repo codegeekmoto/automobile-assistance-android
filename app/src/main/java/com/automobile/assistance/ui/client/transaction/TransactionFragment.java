@@ -1,8 +1,6 @@
 package com.automobile.assistance.ui.client.transaction;
 
-import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,98 +8,85 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.automobile.assistance.R;
+import com.automobile.assistance.app.App;
+import com.automobile.assistance.data.remote.pojo.Jobs;
+import com.automobile.assistance.data.remote.pojo.Transaction;
 import com.automobile.assistance.databinding.FragmentTransactionsBinding;
-import com.automobile.assistance.util.location.LocationTracker;
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.annotations.MarkerOptions;
-import com.mapbox.mapboxsdk.camera.CameraPosition;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.maps.MapView;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.maps.Style;
+import com.automobile.assistance.ui.adapter.JobsAdapter;
+import com.automobile.assistance.ui.client.getassistance.TransactionVM;
+import com.automobile.assistance.ui.vmfactory.TransactionVMFactory;
+import com.automobile.assistance.util.ResultObserver;
 
-import org.jetbrains.annotations.NotNull;
+import javax.inject.Inject;
 
-public class TransactionFragment extends Fragment {
+public class TransactionFragment extends Fragment implements JobsAdapter.ItemClickListener {
+
+    @Inject
+    TransactionVMFactory factory;
+    private TransactionVM transactionVM;
 
     private FragmentTransactionsBinding binding;
 
-    private MapView mapView;
-    private MapboxMap mapboxMap;
-    private LocationTracker locationTracker;
-    private Location location;
-    private boolean isMapInit = false;
-
-    private Bundle savedInstanceState;
+    private JobsAdapter jobsAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Mapbox.getInstance(getContext(), getString(R.string.mapbox_access_token));
-
+        App.getComponent().inject(this);
+        transactionVM = new ViewModelProvider(this, factory).get(TransactionVM.class);
         binding = FragmentTransactionsBinding.inflate(inflater, container, false);
 
-        locationTracker = new LocationTracker(getActivity(), new LocationTracker.LocationTrackerListener() {
+        setTransaction();
+
+        transactionVM.getCompleteJobResult().observe(getViewLifecycleOwner(), new ResultObserver<Boolean>() {
             @Override
-            public void onProviderNotAvailable() {
-
-            }
-
-            @Override
-            public void onProviderDisabled() {
-
-            }
-
-            @Override
-            public void onLocationChanged(Location location) {
-                TransactionFragment.this.location = location;
-
-                if (!isMapInit) {
-
-                }
-
-                Log.d("uuu", "Transaction fragment onLocationChanged: "+ location);
+            public void onSuccess(Boolean aBoolean) {
+                binding.progressLayout.parent.setVisibility(View.VISIBLE);
+                setTransaction();
             }
         });
 
         return binding.getRoot();
     }
 
-    private void setMap() {
-        isMapInit = true;
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(new OnMapReadyCallback() {
+    public void setTransaction() {
+        transactionVM.getTransactionResult().observe(getViewLifecycleOwner(), new ResultObserver<Jobs>() {
+
             @Override
-            public void onMapReady(@NonNull MapboxMap mapboxMap) {
-                TransactionFragment.this.mapboxMap = mapboxMap;
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            public void onSuccess(Jobs jobs) {
+                jobsAdapter = new JobsAdapter(getContext(), jobs.getTransactions());
+                jobsAdapter.setItemClickListener(TransactionFragment.this);
+                binding.transactionList.setLayoutManager(new LinearLayoutManager(getContext()));
+                binding.transactionList.setAdapter(jobsAdapter);
 
-                mapboxMap.setCameraPosition(new CameraPosition.Builder()
-                        .target(latLng)
-                        .zoom(8)
-                        .build());
+                JobsAdapter histAdapter = new JobsAdapter(getContext(), jobs.getHistory());
+                histAdapter.setHistory(true);
+                binding.historyList.setLayoutManager(new LinearLayoutManager(getContext()));
+                binding.historyList.setAdapter(histAdapter);
+                binding.progressLayout.parent.setVisibility(View.GONE);
 
-                mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
-                    @Override
-                    public void onStyleLoaded(@NonNull Style style) {
+                if (jobs.getHistory().size() == 0) {
+                    binding.noHistory.setVisibility(View.VISIBLE);
+                } else {
+                    binding.noHistory.setVisibility(View.GONE);
+                }
 
-                        // Map is set up and the style has loaded. Now you can add data or make other map adjustment
-                    }
-                });
-
+                if (jobs.getTransactions().size() == 0) {
+                    binding.noTransac.setVisibility(View.VISIBLE);
+                } else {
+                    binding.noTransac.setVisibility(View.GONE);
+                }
             }
         });
 
-        mapboxMap.addMarker(new MarkerOptions()
-                .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                .title("My Location"));
+        transactionVM.getTransaction("client_id");
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
-        locationTracker.permissionResult(requestCode, permissions, grantResults);
+    public void onClick(Transaction transaction) {
+        transactionVM.completeJob(String.valueOf(transaction.getId()));
     }
 }

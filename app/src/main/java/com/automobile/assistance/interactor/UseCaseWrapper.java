@@ -7,6 +7,8 @@ public abstract class UseCaseWrapper {
 
     protected List<Thread> threads = new ArrayList<>();
 
+
+
     public void dispose() {
         for (Thread<?> thread: threads) {
             thread.dispose();

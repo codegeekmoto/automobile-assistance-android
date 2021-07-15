@@ -31,6 +31,30 @@ public class Response {
     @Expose
     private FcmToken fcm_token;
 
+    @SerializedName("jobs")
+    @Expose
+    private Jobs jobs;
+
+    @SerializedName("mechanics")
+    @Expose
+    private List<User> mechanics;
+
+    public List<User> getMechanics() {
+        return mechanics;
+    }
+
+    public void setMechanics(List<User> mechanics) {
+        this.mechanics = mechanics;
+    }
+
+    public Jobs getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Jobs jobs) {
+        this.jobs = jobs;
+    }
+
     public FcmToken getFcm_token() {
         return fcm_token;
     }

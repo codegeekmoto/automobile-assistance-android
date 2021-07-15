@@ -1,6 +1,7 @@
 package com.automobile.assistance.ui.client.getassistance;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
@@ -12,24 +13,20 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.automobile.assistance.R;
 import com.automobile.assistance.app.Constant;
 import com.automobile.assistance.data.remote.pojo.Alert;
 import com.automobile.assistance.data.remote.pojo.Service;
-import com.automobile.assistance.data.remote.pojo.Service22;
 import com.automobile.assistance.databinding.ItemConfirmationBinding;
 import com.automobile.assistance.databinding.ItemServicesBinding;
-import com.automobile.assistance.ui.adapter.ServiceAdapter;
+import com.automobile.assistance.otto.AssistanceEvent;
 import com.automobile.assistance.util.ResultObserver;
 import com.automobile.assistance.util.location.LocationTracker;
 import com.automobile.assistance.util.logging.Logger;
 import com.automobile.assistance.util.logging.LoggerFactory;
-import com.mapbox.api.directions.v5.DirectionsCriteria;
-import com.mapbox.api.directions.v5.MapboxDirections;
-import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
@@ -43,6 +40,7 @@ import com.mapbox.mapboxsdk.maps.Style;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class AssistanceFragment extends Fragment implements LocationTracker.LocationTrackerListener {
 
@@ -56,6 +54,9 @@ public abstract class AssistanceFragment extends Fragment implements LocationTra
     private List<Service> services;
 
     private Bundle savedInstanceState;
+
+    private AlertDialog alertDialog;
+    private AlertDialog detailDialog;
 
     protected abstract RecyclerView serviceList();
     protected abstract AssistanceVM getVm();
@@ -113,8 +114,13 @@ public abstract class AssistanceFragment extends Fragment implements LocationTra
     }
 
     private void showService(int id) {
+
+        double random = ThreadLocalRandom.current().nextDouble(40, 70);
+
+        Log.d("eee", "showService: "+ String.format("%.2f", random));
+
         for (Service temp: services) {
-            if (temp.getServiceId() == id) {
+            if (temp.getCompanyServiceId() == id) {
 
                 ItemServicesBinding binding = ItemServicesBinding.inflate(LayoutInflater.from(getContext()), null, false);
                 // LatLng from = new LatLng(location.getLatitude(), location.getLongitude());
@@ -126,19 +132,26 @@ public abstract class AssistanceFragment extends Fragment implements LocationTra
                 String distance = String.valueOf(Math.round(from.distanceTo(to) / 1000)) + "km";
                 binding.distance.setText(distance);
 
-                binding.btnCall.setOnClickListener(v -> {
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse(temp.getMobile()));
-                    // startActivity(intent);
-                    AssistanceFragment.this.getActivity().startActivity(Intent.createChooser(intent, ""));
-                });
+                if (getServiceId().equals("2")) {
+                    binding.premium.setText("Premium - "+
+                            String.format("%.2f", ThreadLocalRandom.current().nextDouble(50, 60)) +"/L"
+                    );
 
-                binding.btnSms.setOnClickListener(v -> {
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse(temp.getMobile()));
-                    // startActivity(intent);
-                    AssistanceFragment.this.getActivity().startActivity(Intent.createChooser(intent, ""));
-                });
+                    binding.unleaded.setText("Unleaded - "+
+                            String.format("%.2f", ThreadLocalRandom.current().nextDouble(50, 60)) +"/L"
+                    );
+
+                    binding.diesel.setText("Diesel - "+
+                            String.format("%.2f", ThreadLocalRandom.current().nextDouble(40, 50)) +"/L"
+                    );
+
+                    binding.kerosene.setText("Kerosene - "+
+                            String.format("%.2f", ThreadLocalRandom.current().nextDouble(50, 80)) +"/L"
+                    );
+
+                    binding.price.setVisibility(View.VISIBLE);
+                    binding.btnAssist.setVisibility(View.GONE);
+                }
 
                 binding.btnAssist.setOnClickListener(v -> {
 
@@ -148,9 +161,9 @@ public abstract class AssistanceFragment extends Fragment implements LocationTra
                     ItemConfirmationBinding bindings = ItemConfirmationBinding.inflate(LayoutInflater.from(getContext()), null, false);
 
 
-                    AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                    alertDialog = new AlertDialog.Builder(getContext())
                             .setView(bindings.getRoot())
-                            .setTitle("Waiting for confirmation...")
+                            .setTitle("")
                             .setCancelable(false)
                             .create();
 
@@ -161,10 +174,16 @@ public abstract class AssistanceFragment extends Fragment implements LocationTra
                     alertDialog.show();
                 });
 
-                new AlertDialog.Builder(getContext())
+                detailDialog = new AlertDialog.Builder(getContext())
                         .setView(binding.getRoot())
-                        .create()
-                        .show();
+                        .setCancelable(false)
+                        .create();
+
+                binding.btnClose.setOnClickListener(v -> {
+                    detailDialog.dismiss();
+                });
+
+                detailDialog.show();
 
 //                MapboxDirections client = MapboxDirections.builder()
 //                        .origin(Point.fromLngLat(latLng))
@@ -177,6 +196,37 @@ public abstract class AssistanceFragment extends Fragment implements LocationTra
                 break;
             }
         }
+    }
+
+    public void onMessage(AssistanceEvent event) {
+        String type = event.getType();
+        String msg = "";
+        boolean isAccepted = false;
+
+        if (type.equals("assistance-refused")) {
+            msg = "Your assistance request had been refused.";
+            isAccepted = false;
+        } else {
+            msg = "Your assistance request had been accepted.";
+            isAccepted = true;
+        }
+
+        new AlertDialog.Builder(getContext())
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                        detailDialog.dismiss();
+
+                        getVm().saveRequestedAssistance(true);
+                        Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
+                                .navigate(R.id.nav_transaction);
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override
@@ -213,7 +263,7 @@ public abstract class AssistanceFragment extends Fragment implements LocationTra
                 for (Service service: services) {
                     MarkerOptions markerOptions = new MarkerOptions()
                             .position(new LatLng(service.getLatlng().getLat(), service.getLatlng().getLng()))
-                            .title(service.getServiceId().toString());
+                            .title(service.getCompanyServiceId().toString());
 
                     mapboxMap.addMarker(markerOptions);
                 }
@@ -259,46 +309,4 @@ public abstract class AssistanceFragment extends Fragment implements LocationTra
             }
         });
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mapView.onResume();
-//    }
-//
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        mapView.onStart();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        mapView.onStop();
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        mapView.onPause();
-//    }
-//
-//    @Override
-//    public void onLowMemory() {
-//        super.onLowMemory();
-//        mapView.onLowMemory();
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        mapView.onDestroy();
-//    }
-//
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        mapView.onSaveInstanceState(outState);
-//    }
 }

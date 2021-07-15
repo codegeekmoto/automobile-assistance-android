@@ -30,6 +30,53 @@
         android:text="34km"
         android:textSize="16sp" />
 
+
+    <LinearLayout
+        android:id="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/premium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/gotham_bold"
+            android:text="Premium - 34.00"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/unleaded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/gotham_bold"
+            android:text="Unleaded - 34.00"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/diesel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/gotham_bold"
+            android:text="Diesel - 34.00"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/kerosene"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/gotham_bold"
+            android:text="Kerosene - 34.00"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -44,37 +91,7 @@
         android:fontFamily="@font/gotham_bold"
         android:text="Get Assistance"
         android:textAllCaps="false"
-        android:textColor="@color/gray" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/light" />
-
-<!--    <Button-->
-<!--        android:id="@+id/btn_direction"-->
-<!--        style="@style/Widget.AppCompat.Button.Borderless"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="35dp"-->
-<!--        android:fontFamily="@font/gotham_bold"-->
-<!--        android:text="Direction"-->
-<!--        android:textAllCaps="false"-->
-<!--        android:textColor="@color/gray" />-->
-
-<!--    <View-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1dp"-->
-<!--        android:background="@color/light" />-->
-
-    <Button
-        android:id="@+id/btn_call"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:fontFamily="@font/gotham_bold"
-        android:text="Call"
-        android:textAllCaps="false"
-        android:textColor="@color/gray" />
+        android:textColor="@color/colorPrimary" />
 
     <View
         android:layout_width="match_parent"
@@ -82,28 +99,18 @@
         android:background="@color/light" />
 
     <Button
-        android:id="@+id/btn_sms"
+        android:id="@+id/btn_close"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:fontFamily="@font/gotham_bold"
-        android:text="Send SMS"
+        android:text="Close"
         android:textAllCaps="false"
-        android:textColor="@color/gray" />
+        android:textColor="@android:color/holo_orange_dark" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/light" />
-
-<!--    <Button-->
-<!--        android:id="@+id/btn_msg"-->
-<!--        style="@style/Widget.AppCompat.Button.Borderless"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="35dp"-->
-<!--        android:fontFamily="@font/gotham_bold"-->
-<!--        android:text="Message"-->
-<!--        android:textAllCaps="false"-->
-<!--        android:textColor="@color/gray" />-->
 
 </LinearLayout>

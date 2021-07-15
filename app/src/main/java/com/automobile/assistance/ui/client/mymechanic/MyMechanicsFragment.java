@@ -11,11 +11,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.automobile.assistance.app.App;
+import com.automobile.assistance.data.remote.pojo.User;
 import com.automobile.assistance.databinding.FragmentMyMechanicBinding;
 import com.automobile.assistance.ui.client.getassistance.AssistanceFragment;
 import com.automobile.assistance.ui.client.getassistance.AssistanceVM;
 import com.automobile.assistance.ui.client.getassistance.TireVM;
 import com.automobile.assistance.ui.vmfactory.TireVMFactory;
+import com.automobile.assistance.util.ResultObserver;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -35,6 +39,15 @@ public class MyMechanicsFragment extends AssistanceFragment {
         binding = FragmentMyMechanicBinding.inflate(inflater, container, false);
 
         initMap(binding.map);
+
+        tireVM.getMechanicsResult().observe(getViewLifecycleOwner(), new ResultObserver<List<User>>() {
+
+            @Override
+            public void onSuccess(List<User> users) {
+                binding.progressLayout.parent.setVisibility(View.GONE);
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -55,6 +68,7 @@ public class MyMechanicsFragment extends AssistanceFragment {
 
     @Override
     protected void onMapReady() {
-        binding.progressLayout.parent.setVisibility(View.GONE);
+
+        tireVM.getMechanics();
     }
 }

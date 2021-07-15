@@ -39,6 +39,18 @@ public class User {
     @Expose
     private String updatedAt;
 
+    @SerializedName("loc")
+    @Expose
+    private LatLang location;
+
+    public LatLang getLocation() {
+        return location;
+    }
+
+    public void setLocation(LatLang location) {
+        this.location = location;
+    }
+
     private String fcmToken;
 
     public String getFcmToken() {

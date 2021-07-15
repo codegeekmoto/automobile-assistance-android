@@ -8,20 +8,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.automobile.assistance.app.App;
 import com.automobile.assistance.databinding.AddCarFragmentBinding;
-import com.automobile.assistance.otto.EventBus;
-import com.automobile.assistance.otto.event.NewCarAddedEvent;
 import com.automobile.assistance.ui.vmfactory.CarVMFactory;
 import com.automobile.assistance.util.Helper;
-import com.automobile.assistance.util.ResultObserver;
 
 import javax.inject.Inject;
 

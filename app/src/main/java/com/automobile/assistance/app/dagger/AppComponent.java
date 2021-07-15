@@ -1,5 +1,6 @@
 package com.automobile.assistance.app.dagger;
 
+import com.automobile.assistance.app.App;
 import com.automobile.assistance.ui.SplashActivity;
 import com.automobile.assistance.ui.auth.login.LoginFragment;
 import com.automobile.assistance.ui.auth.register.RegisterFragment;
@@ -11,7 +12,9 @@ import com.automobile.assistance.ui.client.getassistance.TowFragment;
 import com.automobile.assistance.ui.client.mycar.AddCarFragment;
 import com.automobile.assistance.ui.client.mymechanic.MyMechanicsFragment;
 import com.automobile.assistance.ui.client.profile.ProfileFragment;
+import com.automobile.assistance.ui.client.transaction.TransactionFragment;
 import com.automobile.assistance.ui.mechanic.MechanicActivity;
+import com.automobile.assistance.ui.mechanic.MechanicFragment;
 
 import javax.inject.Singleton;
 
@@ -25,6 +28,7 @@ import dagger.Component;
 })
 public interface AppComponent {
 
+    void  inject(App app);
     void inject(SplashActivity splashActivity);
     void inject(ClientActivity clientActivity);
     void inject(MechanicActivity mechanicActivity);
@@ -38,4 +42,6 @@ public interface AppComponent {
     void inject(TireFragment tireFragment);
     void inject(FuelFragment fuelFragment);
     void inject(MyMechanicsFragment myMechanicsFragment);
+    void inject(TransactionFragment transactionFragment);
+    void inject(MechanicFragment mechanicFragment);
 }

@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
 import android.os.Build;
 import android.util.Log;
 
@@ -14,9 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.automobile.assistance.R;
+import com.automobile.assistance.app.App;
+import com.automobile.assistance.data.remote.pojo.Job;
+import com.automobile.assistance.otto.AssistanceEvent;
 import com.automobile.assistance.ui.SplashActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -60,5 +63,21 @@ public class NotificationService extends FirebaseMessagingService {
         }
 
         mNotificationManager.notify(0, mBuilder.build());
+
+        String type = remoteMessage.getData().get("type");
+        AssistanceEvent assistanceEvent = new AssistanceEvent(type);
+
+        if (type.equals("assistance-accepted")) {
+            Job job = new Gson().fromJson(remoteMessage.getData().get("content"), Job.class);
+            assistanceEvent.setJob(job);
+        }
+
+        App.getEventBus().post(assistanceEvent);
+    }
+
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
     }
 }

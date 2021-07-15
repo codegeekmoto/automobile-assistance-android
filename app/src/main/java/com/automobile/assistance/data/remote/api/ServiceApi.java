@@ -20,4 +20,13 @@ public interface ServiceApi {
 
     @POST(Constant.API.GET_ASSISTANCE)
     Observable<Response> getAssistance(@Body RequestBody body);
+
+    @POST(Constant.API.TRANSACTIONS)
+    Observable<Response> getTransactions(@Body RequestBody body);
+
+    @POST(Constant.API.COMPLETED)
+    Observable<Response> completeJob(@Body RequestBody body);
+
+    @GET("mechanics")
+    Observable<Response> mechanics();
 }

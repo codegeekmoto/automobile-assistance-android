@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_mechanic"
         android:name="com.automobile.assistance.ui.mechanic.MechanicFragment"
-        android:label="Home"
+        android:label="Jobs"
         tools:layout="@layout/fragment_mechanic" />
 
     <fragment
@@ -22,5 +22,11 @@
         android:name="com.automobile.assistance.ui.client.FaqsFragment"
         android:label="Faq's"
         tools:layout="@layout/fragment_faq" />
+
+    <fragment
+        android:id="@+id/nav_mechanic_map"
+        android:name="com.automobile.assistance.ui.mechanic.MapFragment"
+        android:label="Map"
+        tools:layout="@layout/fragment_map" />
 
 </navigation>

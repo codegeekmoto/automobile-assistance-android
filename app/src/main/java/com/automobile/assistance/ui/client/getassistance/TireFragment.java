@@ -42,7 +42,7 @@ public class TireFragment extends AssistanceFragment {
 
     @Override
     protected String getServiceId() {
-        return "2";
+        return "5";
     }
 
     @Override

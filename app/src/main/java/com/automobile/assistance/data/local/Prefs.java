@@ -12,6 +12,10 @@ public class Prefs {
         this.preferences = preferences;
     }
 
+    public SharedPreferences getPreferences() {
+        return preferences;
+    }
+
     public void setString(String key, String value) {
         preferences.edit().putString(key, value).apply();
     }

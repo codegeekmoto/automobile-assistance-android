@@ -3,6 +3,7 @@ package com.automobile.assistance.ui.client.getassistance;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.automobile.assistance.app.App;
 import com.automobile.assistance.data.remote.pojo.Alert;
 import com.automobile.assistance.data.remote.pojo.Service;
 import com.automobile.assistance.interactor.UseCase;
@@ -71,8 +72,12 @@ public abstract class AssistanceVM extends BaseVM {
     }
 
 
-    protected void getMyCar() {
+    protected void saveRequestedAssistance(boolean bool) {
+        useCase.service().source().setAssistanceAcceptedFlag(bool);
+    }
 
+    protected void isRequestedAssistance(boolean bool) {
+        useCase.service().source().getAssistanceAcceptedFlag();
     }
 
     // Must be override in child vm

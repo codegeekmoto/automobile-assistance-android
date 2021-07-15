@@ -3,6 +3,7 @@ package com.automobile.assistance.ui.client.profile;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.automobile.assistance.app.App;
 import com.automobile.assistance.data.remote.pojo.User;
 import com.automobile.assistance.interactor.UseCase;
 import com.automobile.assistance.ui.vmfactory.BaseVM;
@@ -38,6 +39,7 @@ public class ProfileVM extends BaseVM {
     }
 
     public void logout() {
+        App.getInstance().repository().service().setAssistanceAcceptedFlag(false);
         useCase.user().logout();
     }
 

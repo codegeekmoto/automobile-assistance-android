@@ -43,7 +43,9 @@ public class Constant {
         // Services
         public final static String SERVICE = "service";
         public final static String SERVICE_BY_ID = "company/services";
-        public final static String GET_ASSISTANCE = "service/assistance";
+        public final static String GET_ASSISTANCE = "assistance";
+        public final static String TRANSACTIONS = "transaction";
+        public final static String COMPLETED = "completed";
     }
 
     public static class Message {

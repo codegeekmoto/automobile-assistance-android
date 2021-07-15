@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 
 import com.automobile.assistance.app.App;
 import com.automobile.assistance.databinding.FuelFragmentBinding;
+import com.automobile.assistance.otto.AssistanceEvent;
 import com.automobile.assistance.ui.vmfactory.FuelVMFactory;
+import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
@@ -33,6 +35,7 @@ public class FuelFragment extends AssistanceFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         App.getComponent().inject(this);
+        App.getEventBus().register(this);
         fuelVM = new ViewModelProvider(this, vmFactory).get(FuelVM.class);
 
         binding = FuelFragmentBinding.inflate(inflater, container, false);
@@ -58,5 +61,16 @@ public class FuelFragment extends AssistanceFragment {
     @Override
     protected void onMapReady() {
         binding.progressLayout.parent.setVisibility(View.GONE);
+    }
+
+    @Subscribe
+    public void onAssistanceNotification(AssistanceEvent event) {
+        onMessage(event);
+    }
+
+    @Override
+    public void onDestroy() {
+        App.getEventBus().unregister(this);
+        super.onDestroy();
     }
 }
